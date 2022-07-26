@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express'
 import 'reflect-metadata'
 import dotenv from 'dotenv'
+import db from './db'
 
 const app : Express = express();
 dotenv.config()
@@ -14,6 +15,8 @@ app.get('/', (req : Request, res : Response) => {
 
 async function start(){
     try {
+        await db.authenticate()
+        await db.sync()
         app.listen(PORT, () => console.log(`App started at port = http://localhost:${PORT}`))        
     } catch (error) {
         console.log(error)
